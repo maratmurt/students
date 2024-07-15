@@ -1,6 +1,7 @@
 package ru.skillbox.students;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -12,6 +13,7 @@ public class StudentService {
 
     private final Map<Integer, Student> students;
     private int count;
+    private final ApplicationEventPublisher publisher;
 
     public String showAll() {
         return students.values()
@@ -27,11 +29,13 @@ public class StudentService {
         student.setLastName(lastName);
         student.setAge(age);
         students.put(count, student);
+        publisher.publishEvent(new AddStudentEvent(this, firstName, lastName, age));
         return count++;
     }
 
     public void delete(int id) {
         students.remove(id);
+        publisher.publishEvent(new DeleteStudentEvent(this, id));
     }
 
     public void deleteAll() {
