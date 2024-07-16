@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-@ConditionalOnProperty("app.on-start-data-initializer.enabled")
-public class OnStartDataInitializer {
+@ConditionalOnProperty("app.data-initializer.enabled")
+public class DataInitializer {
 
     private final StudentService service;
 
